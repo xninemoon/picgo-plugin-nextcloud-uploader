@@ -108,7 +108,8 @@ module.exports = (ctx) => {
         delete image.buffer
         body = JSON.parse(body).ocs
         if (body.meta.statuscode === 200) {
-          image.imgUrl = body.data.url + '/preview'
+          // 采用与 host 相同的协议， 使用 /download 替代 /preview
+          image.imgUrl = host.substring(0, host.indexOf(":"))+ body.data.url.substring(body.data.url.indexOf(':')) + '/download'
           ctx.emit('notification', {
             title: '上传成功',
             body: '可以粘贴链接啦...'
